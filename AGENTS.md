@@ -2,7 +2,8 @@
 
 本文件是仓库的维护手册，面向维护者和 AI 助手。任何对本仓库的修改请先阅读本文件并遵守其中的规范，保证 `fnpack.json` 始终是可被飞牛客户端正确解析的 FnDepot V2 源索引。
 
-- 仓库：`https://github.com/xnkyn/FnDepot`（公开，main 分支，直接推送到 main 即可生效）
+- 仓库：主站 [Gitee · xnkyn/FnDepot](https://gitee.com/xnkyn/FnDepot)，镜像 [GitHub · xnkyn/FnDepot](https://github.com/xnkyn/FnDepot)（均为公开仓库，main 分支）
+- 发布地址：主源 `https://gitee.com/xnkyn/FnDepot/raw/main/fnpack.json`；镜像源 `https://raw.githubusercontent.com/xnkyn/FnDepot/main/fnpack.json`（用户在 FnDepot 应用内添加应用源时使用，官方「应用中心」不支持第三方源）
 - 规范来源：[EWEDLCM/FnDepot](https://github.com/EWEDLCM/FnDepot)（官方示例源 `fnpack.json` 为准）
 - 角色约定：`source_info.author` 填**源维护者 xnkyn**（规范定义它与应用开发者无关）；应用开发者写在每个应用的 `maintainer` 字段（当前为 p2pee.com），**不要**把 p2pee.com 写进 `source_info.author`
 
@@ -75,6 +76,30 @@ FnDepot/
 - 已发布版本对应的文件不要删除/改名，除非同时移除对应的 release 节点
 - 图标单张 < 500KB；若加 `preview_urls` 预览图单张 < 2MB（最多 8 张）
 
+## Git 双站推送配置（Gitee 主站 + GitHub 镜像）
+
+本仓库以 Gitee 为主站、GitHub 为镜像。本地 origin 的 fetch 指向 Gitee，push 配置了两个地址，**一次 `git push origin main` 同时更新两边**：
+
+```bash
+# 当前已配置好的 remote（如需重配，按此顺序执行）：
+git remote add origin https://gitee.com/xnkyn/FnDepot.git
+git remote set-url --add --push origin https://gitee.com/xnkyn/FnDepot.git
+git remote set-url --add --push origin https://github.com/xnkyn/FnDepot.git
+
+# 日常推送（同时推 Gitee 和 GitHub）：
+git push origin main
+
+# 查看当前配置：
+git remote -v
+```
+
+注意事项：
+
+- Gitee 仓库的默认分支必须是 `main`（Gitee 网页端：管理 → 仓库设置 → 默认分支），否则主源直链里的 `/raw/main/` 会 404
+- Gitee raw 直链有约 1~5 分钟服务端缓存：推送后 FnDepot 里刷新源列表有延迟属正常现象
+- Gitee 有防盗链和"外链滥用"限制：若用户反馈主源 403/拉取失败，引导其改用 GitHub 镜像源地址
+- 只推了 Gitee 没推 GitHub（或反过来）时，两边仓库会有分叉，下次推送前先 `git pull` 对齐
+
 ## 添加新应用 SOP
 
 以下命令均在 Git Bash（Windows）下执行，仓库根目录为当前目录。
@@ -141,12 +166,12 @@ FnDepot/
 
 6. **过一遍推送前校验清单**（见下节）
 
-7. **提交推送**
+7. **提交推送**（一次推送，Gitee 主站和 GitHub 镜像同时更新）
 
    ```bash
    git add -A
    git commit -m "feat: add mytool 1.0.0"
-   git push
+   git push origin main
    ```
 
 8. **更新 README.md** 的应用列表表格，保持同步
