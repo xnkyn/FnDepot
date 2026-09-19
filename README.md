@@ -37,7 +37,7 @@
 
 | 应用 | 版本 | 主源下载（GitHub） | 备用下载（Gitee，国内快） |
 | --- | --- | --- | --- |
-| P2Pee文件共享 | 1.0.0 | [p2pee1.0.0.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee/p2pee1.0.0.fpk) | [p2pee1.0.0.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee/p2pee1.0.0.fpk) |
+| P2Pee文件共享 | 1.0.0 | [p2pee-1.0.0-amd64.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee/p2pee-1.0.0-amd64.fpk) | [p2pee-1.0.0-amd64.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee/p2pee-1.0.0-amd64.fpk) |
 | P2Pee内网穿透 | 1.0.0 | [p2pee-proxy-1.0.0-amd64.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee-proxy/p2pee-proxy-1.0.0-amd64.fpk) | [p2pee-proxy-1.0.0-amd64.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee-proxy/p2pee-proxy-1.0.0-amd64.fpk) |
 
 ### 安装步骤
@@ -78,7 +78,7 @@ FnDepot/
 │   └── sync-from-gitee.yml          # GitHub 镜像自动同步（每小时从 Gitee 拉取）
 ├── p2pee/                           # 应用目录名 = FPK manifest 中的 appname
 │   ├── ICON.PNG                     # 图标（全大写文件名，256×256，<500KB）
-│   └── p2pee1.0.0.fpk
+│   └── p2pee-1.0.0-amd64.fpk
 └── p2pee-proxy/
     ├── ICON.PNG
     └── p2pee-proxy-1.0.0-amd64.fpk

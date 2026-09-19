@@ -19,6 +19,7 @@ FnDepot/
 ```
 
 - 目录名：仅小写字母、数字、连字符（如 `mytool`、`another-app`），必须与 FPK 内 manifest 的 `appname` 完全一致，并与 `fnpack.json` 中 `apps` 的键名完全一致（区分大小写）
+- FPK 文件名：统一用 `<appname>-<版本>-<架构>.fpk` 格式（如 `p2pee-1.0.0-amd64.fpk`、`p2pee-1.0.0-arm64.fpk`），架构标识为 `amd64` / `arm64`（通用包用 `all`），让用户一眼看清适用架构，避免误装到不支持的设备
 - 图标必须命名为 `ICON.PNG`（全大写），优先从 FPK 内提取 `ICON_256.PNG` 改名使用
 
 ## fnpack.json V2 字段速查
@@ -116,23 +117,23 @@ git remote -v
 1. **获取元数据**：解出 FPK 的 manifest（权威来源，以此为准填字段，不要凭文件名猜）
 
    ```bash
-   tar -xzOf mytool/mytool_1.0.0.fpk manifest
+   tar -xzOf mytool/mytool-1.0.0-amd64.fpk manifest
    ```
 
 2. **建目录放文件**：目录名 = manifest 里的 `appname`
 
    ```bash
    mkdir mytool
-   cp mytool_1.0.0.fpk mytool/
+   cp mytool-1.0.0-amd64.fpk mytool/
    # 图标：从 FPK 里提取 256 图标改名
-   tar -xzOf mytool/mytool_1.0.0.fpk ICON_256.PNG > mytool/ICON.PNG
+   tar -xzOf mytool/mytool-1.0.0-amd64.fpk ICON_256.PNG > mytool/ICON.PNG
    ```
 
 3. **算校验值和大小**
 
    ```bash
-   sha256sum mytool/mytool_1.0.0.fpk
-   stat -c '%s' mytool/mytool_1.0.0.fpk
+   sha256sum mytool/mytool-1.0.0-amd64.fpk
+   stat -c '%s' mytool/mytool-1.0.0-amd64.fpk
    ```
 
 4. **编辑 fnpack.json**：在 `apps` 中新增键名 = 目录名的条目，模板（按 manifest 实际值替换）：
@@ -157,7 +158,7 @@ git remote -v
          "updated_at": "2026-09-19T12:00:00+08:00",
          "packages": {
            "x86": {
-             "download_url": "./mytool/mytool_1.0.0.fpk",
+             "download_url": "./mytool/mytool-1.0.0-amd64.fpk",
              "sha256": "<64位十六进制>",
              "size": 0
            }
@@ -197,7 +198,7 @@ git remote -v
 当前两个应用仅收录 x86（x86_64）包：应用级 `platform` 为 `["x86"]`，`packages` 只有 `"x86"` 键。p2pee 发布 ARM 版 fpk 后按以下流程接入：
 
 1. 获取 ARM 版 fpk，先解出 manifest 复核：`appname` 必须与现有应用目录一致；`arch=arm64` 对应 platform 枚举 `"arm"`
-2. 将 ARM 包放入对应应用目录，文件名带架构标识（如 `p2pee_1.0.1_arm64.fpk`），并计算 sha256 和 size
+2. 将 ARM 包放入对应应用目录，文件名带架构标识（如 `p2pee-1.0.1-arm64.fpk`），并计算 sha256 和 size
 3. 修改 fnpack.json（推荐发新版本号，如 1.0.1，在同一版本节点同时提供双架构）：
    - 应用级 `platform` 改为 `["x86", "arm"]`
    - 新版本节点的 `packages` 下保留 `"x86"` 键并新增 `"arm"` 键，各指向对应架构的 fpk，分别填 sha256/size

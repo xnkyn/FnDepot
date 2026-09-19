@@ -28,7 +28,7 @@
           "os_min_version": "0.9.0",
           "packages": {
             "x86": {
-              "download_url": "./p2pee/p2pee1.0.0.fpk",
+              "download_url": "./p2pee/p2pee-1.0.0-amd64.fpk",
               "sha256": "f7cf0456a8404fcacf034a203a84653ae3ec3e32063e23e54c597aa5e1de610d",
               "size": 8128962
             }
