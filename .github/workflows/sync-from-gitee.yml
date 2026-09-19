@@ -1,0 +1,28 @@
+name: Sync mirror from Gitee
+
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub mirror
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Pull latest from Gitee
+        run: |
+          git remote add gitee https://gitee.com/xnkyn/FnDepot.git
+          git fetch gitee main
+          git reset --hard gitee/main
+
+      - name: Push to GitHub
+        run: git push origin main --force

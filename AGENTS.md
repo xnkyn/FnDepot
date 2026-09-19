@@ -2,8 +2,8 @@
 
 本文件是仓库的维护手册，面向维护者和 AI 助手。任何对本仓库的修改请先阅读本文件并遵守其中的规范，保证 `fnpack.json` 始终是可被飞牛客户端正确解析的 FnDepot V2 源索引。
 
-- 仓库：主站 [Gitee · xnkyn/FnDepot](https://gitee.com/xnkyn/FnDepot)，镜像 [GitHub · xnkyn/FnDepot](https://github.com/xnkyn/FnDepot)（均为公开仓库，main 分支）
-- 发布地址：主源 `https://gitee.com/xnkyn/FnDepot/raw/main/fnpack.json`；镜像源 `https://raw.githubusercontent.com/xnkyn/FnDepot/main/fnpack.json`（用户在 FnDepot 应用内添加应用源时使用，官方「应用中心」不支持第三方源）
+- 仓库：代码主站 [Gitee · xnkyn/FnDepot](https://gitee.com/xnkyn/FnDepot)（维护者只推这里），镜像 [GitHub · xnkyn/FnDepot](https://github.com/xnkyn/FnDepot)（Actions 定时拉取自动同步，见 `.github/workflows/sync-from-gitee.yml`；均为公开仓库，main 分支）
+- 用户源地址：主源（GitHub，稳定）`https://raw.githubusercontent.com/xnkyn/FnDepot/main/fnpack.json`；备用源（Gitee，国内直连快）`https://gitee.com/xnkyn/FnDepot/raw/main/fnpack.json`。用户在 FnDepot 应用内添加应用源时使用，官方「应用中心」不支持第三方源
 - 规范来源：[EWEDLCM/FnDepot](https://github.com/EWEDLCM/FnDepot)（官方示例源 `fnpack.json` 为准）
 - 角色约定：`source_info.author` 填**源维护者 xnkyn**（规范定义它与应用开发者无关）；应用开发者写在每个应用的 `maintainer` 字段（当前为 p2pee.com），**不要**把 p2pee.com 写进 `source_info.author`
 
@@ -76,29 +76,38 @@ FnDepot/
 - 已发布版本对应的文件不要删除/改名，除非同时移除对应的 release 节点
 - 图标单张 < 500KB；若加 `preview_urls` 预览图单张 < 2MB（最多 8 张）
 
-## Git 双站推送配置（Gitee 主站 + GitHub 镜像）
+## Git 推送与镜像同步（Gitee 主站 + GitHub 镜像）
 
-本仓库以 Gitee 为主站、GitHub 为镜像。本地 origin 的 fetch 指向 Gitee，push 配置了两个地址，**一次 `git push origin main` 同时更新两边**：
+维护流程：**代码只推 Gitee 主站**；GitHub 镜像由仓库内置的 Actions（`.github/workflows/sync-from-gitee.yml`）每小时自动从 Gitee 拉取同步，也可在 GitHub 仓库的 Actions 页手动触发（workflow_dispatch）。用户添加源以 **GitHub 直链为主**（稳定），Gitee 直链只做国内直连的备用（有缓存和防盗链，不稳定）。
 
 ```bash
-# 当前已配置好的 remote（如需重配，按此顺序执行）：
+# 当前本地 remote 配置（fetch 和 push 都只指向 Gitee，如需重配）：
 git remote add origin https://gitee.com/xnkyn/FnDepot.git
-git remote set-url --add --push origin https://gitee.com/xnkyn/FnDepot.git
-git remote set-url --add --push origin https://github.com/xnkyn/FnDepot.git
 
-# 日常推送（同时推 Gitee 和 GitHub）：
+# 日常推送（只推 Gitee，GitHub 由 Actions 自动跟上）：
 git push origin main
 
 # 查看当前配置：
 git remote -v
 ```
 
+镜像同步要点：
+
+- Actions 依赖 GitHub 仓库里已存在 workflow 文件，因此**首次**需手动推一次 GitHub：
+  ```bash
+  git remote add github https://github.com/xnkyn/FnDepot.git
+  git push github main
+  ```
+  之后 GitHub 端不再需要手动推送，全部自动同步
+- Actions 运行失败（红叉）通常是 Gitee 仓库不存在/改名/转私有导致，先确认 `https://gitee.com/xnkyn/FnDepot` 可公开访问
+- 备选方案：Gitee 网页端「管理 → 仓库镜像 → 添加镜像（推送）」同样能实现 Gitee→GitHub 自动同步，与本 Actions 方案二选一即可
+- 不要在 GitHub 网页端直接改文件：那会造成镜像分叉，下次 Actions 强制同步会覆盖 GitHub 端的修改；一切改动都在 Gitee 侧提交
+
 注意事项：
 
-- Gitee 仓库的默认分支必须是 `main`（Gitee 网页端：管理 → 仓库设置 → 默认分支），否则主源直链里的 `/raw/main/` 会 404
-- Gitee raw 直链有约 1~5 分钟服务端缓存：推送后 FnDepot 里刷新源列表有延迟属正常现象
-- Gitee 有防盗链和"外链滥用"限制：若用户反馈主源 403/拉取失败，引导其改用 GitHub 镜像源地址
-- 只推了 Gitee 没推 GitHub（或反过来）时，两边仓库会有分叉，下次推送前先 `git pull` 对齐
+- Gitee 仓库的默认分支必须是 `main`（Gitee 网页端：管理 → 仓库设置 → 默认分支），否则直链里的 `/raw/main/` 和镜像同步都会 404
+- Gitee raw 直链有约 1~5 分钟服务端缓存：推送后 FnDepot 里用 Gitee 备用源刷新有延迟属正常现象；GitHub 主源无此缓存
+- Gitee 有防盗链和"外链滥用"限制（不稳定），所以用户主源固定用 GitHub；用户反馈备用源 403/拉取失败时，引导改回 GitHub 主源
 
 ## 添加新应用 SOP
 
@@ -166,7 +175,7 @@ git remote -v
 
 6. **过一遍推送前校验清单**（见下节）
 
-7. **提交推送**（一次推送，Gitee 主站和 GitHub 镜像同时更新）
+7. **提交推送**（推送到 Gitee 主站；GitHub 镜像由 Actions 自动同步，可到 GitHub 仓库的 Actions 页确认同步结果）
 
    ```bash
    git add -A
@@ -182,6 +191,21 @@ git remote -v
 2. 在该应用的 `releases` 下**新增**版本节点（不动旧节点，除非旧文件已删除），`updated_at` 填新时间
 3. 重算 sha256 和 size
 4. 同步更新 README 应用列表的版本号，校验 JSON，提交推送（建议提交信息 `feat: bump mytool to 1.1.0`）
+
+## 接入 ARM 架构安装包（后期规划）
+
+当前两个应用仅收录 x86（x86_64）包：应用级 `platform` 为 `["x86"]`，`packages` 只有 `"x86"` 键。p2pee 发布 ARM 版 fpk 后按以下流程接入：
+
+1. 获取 ARM 版 fpk，先解出 manifest 复核：`appname` 必须与现有应用目录一致；`arch=arm64` 对应 platform 枚举 `"arm"`
+2. 将 ARM 包放入对应应用目录，文件名带架构标识（如 `p2pee_1.0.1_arm64.fpk`），并计算 sha256 和 size
+3. 修改 fnpack.json（推荐发新版本号，如 1.0.1，在同一版本节点同时提供双架构）：
+   - 应用级 `platform` 改为 `["x86", "arm"]`
+   - 新版本节点的 `packages` 下保留 `"x86"` 键并新增 `"arm"` 键，各指向对应架构的 fpk，分别填 sha256/size
+   - 如必须给已发布的 1.0.0 补 ARM 包：可在 `releases."1.0.0".packages` 里新增 `"arm"` 键（不影响已发布的 x86 条目，符合"版本号+架构不可变"），同时更新该节点 `updated_at`；更稳妥的做法仍是发新版本
+4. 校验 JSON、更新 README（应用列表架构列、ARM 支持说明、手动安装直链表加 ARM 行），提交推送
+5. 在飞牛 ARM 真机上添加源实测安装
+
+相关规则：`packages` 架构键只能是 `all` / `x86` / `arm`；客户端按「当前架构精确匹配 → 回退 `packages.all`」选择安装包。若某应用只有一个通用包（manifest 无架构绑定），用 `"all"` 键 + `platform: ["all"]`。
 
 ## 下架应用
 
