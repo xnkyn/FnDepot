@@ -3,6 +3,7 @@
   "source_info": {
     "name": "FnDepot",
     "author": "xnkyn",
+    "homepage": "https://github.com/xnkyn/FnDepot",
     "description": "P2Pee 系列应用第三方源（文件共享 / 内网穿透）"
   },
   "apps": {
