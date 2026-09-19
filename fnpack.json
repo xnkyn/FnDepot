@@ -1,0 +1,67 @@
+{
+  "schema_version": "2",
+  "source_info": {
+    "name": "FnDepot",
+    "author": "xnkyn",
+    "description": "P2Pee 系列应用第三方源（文件共享 / 内网穿透）"
+  },
+  "apps": {
+    "p2pee": {
+      "display_name": "P2Pee文件共享",
+      "desc": "P2Pee 文件共享工具 - 通过P2P网络实现高效文件共享，在任何地方通过浏览器下载nas共享文件，支持Web界面管理",
+      "platform": ["x86"],
+      "categories": ["系统工具"],
+      "icon_url": "./p2pee/ICON.PNG",
+      "maintainer": "p2pee.com",
+      "maintainer_url": "https://p2pee.com",
+      "distributor": "p2pee.com",
+      "distributor_url": "https://p2pee.com",
+      "run_as": "package",
+      "install_type": "",
+      "is_docker": false,
+      "service_port": "9527",
+      "releases": {
+        "1.0.0": {
+          "changelog": "初始版本：支持通过Web界面管理P2Pee文件共享服务，可配置Key密钥和共享目录",
+          "updated_at": "2026-06-09T15:13:45+08:00",
+          "os_min_version": "0.9.0",
+          "packages": {
+            "x86": {
+              "download_url": "./p2pee/p2pee1.0.0.fpk",
+              "sha256": "f7cf0456a8404fcacf034a203a84653ae3ec3e32063e23e54c597aa5e1de610d",
+              "size": 8128962
+            }
+          }
+        }
+      }
+    },
+    "p2pee-proxy": {
+      "display_name": "P2Pee内网穿透",
+      "desc": "P2Pee 内网穿透工具 - 基于 P2P 网络将本地 HTTP(S) 服务安全暴露到公网，通过浏览器直接访问，无需安装客户端，无需公网 IP 和端口映射，支持多目标代理与 Web 管理界面",
+      "platform": ["x86"],
+      "categories": ["系统工具"],
+      "icon_url": "./p2pee-proxy/ICON.PNG",
+      "maintainer": "p2pee.com",
+      "maintainer_url": "https://p2pee.com",
+      "distributor": "p2pee.com",
+      "distributor_url": "https://p2pee.com",
+      "run_as": "package",
+      "install_type": "",
+      "is_docker": false,
+      "releases": {
+        "1.0.0": {
+          "changelog": "初始版本：支持通过 Web 界面管理 P2Pee 内网穿透服务，可配置 Key 密钥、多个本地代理目标和高级参数",
+          "updated_at": "2026-09-15T16:35:08+08:00",
+          "os_min_version": "0.9.0",
+          "packages": {
+            "x86": {
+              "download_url": "./p2pee-proxy/p2pee-proxy-1.0.0-amd64.fpk",
+              "sha256": "bbedfd8239bd5a170a3867b4c09452d909533e20036ba5e964a61772b693ba7e",
+              "size": 8483203
+            }
+          }
+        }
+      }
+    }
+  }
+}
