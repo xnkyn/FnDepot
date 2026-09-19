@@ -2,7 +2,7 @@ name: Sync mirror from Gitee
 
 on:
   schedule:
-    - cron: "23 * * * *"
+    - cron: "23 3 * * *"   # 每天 UTC 03:23，即北京时间 11:23
   workflow_dispatch:
 
 permissions:

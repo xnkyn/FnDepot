@@ -52,7 +52,6 @@
 
 当前仓库收录的两个应用均只提供 **x86（x86_64）** 架构安装包，飞牛 ARM 机型暂时无法安装（ARM 版发布后本仓库会第一时间收录，并同步更新此说明和下载直链）。想第一时间获知 ARM 版动态，请关注 [p2pee.com](https://p2pee.com) 
 
-维护者视角的 ARM 包接入操作步骤见 [AGENTS.md](AGENTS.md) 的「接入 ARM 架构安装包」。
 
 ## 关于 p2pee
 
@@ -66,7 +65,6 @@
 - 基于 **WebRTC 点对点直连**，数据不经过中转服务器，局域网内满速传输，支持大文件
 - **网页版无需安装任何客户端**，打开 [p2pee.com](https://p2pee.com) 即可使用
 - 多端支持：Windows / macOS / Linux / NAS，另有 CLI 命令行版和 Docker 版
-- 交流反馈：官方 QQ 群 876628967
 
 ## 仓库结构
 
@@ -75,7 +73,7 @@ FnDepot/
 ├── fnpack.json                      # 源索引文件（V2 规范，文件名固定，必须严格 JSON）
 ├── AGENTS.md                        # 维护指南（添加/更新/下架应用、ARM 接入、规范速查、校验清单）
 ├── .github/workflows/
-│   └── sync-from-gitee.yml          # GitHub 镜像自动同步（每小时从 Gitee 拉取）
+│   └── sync-from-gitee.yml          # GitHub 镜像自动同步（每天从 Gitee 拉取）
 ├── p2pee/                           # 应用目录名 = FPK manifest 中的 appname
 │   ├── ICON.PNG                     # 图标（全大写文件名，256×256，<500KB）
 │   └── p2pee-1.0.0-amd64.fpk
@@ -83,9 +81,3 @@ FnDepot/
     ├── ICON.PNG
     └── p2pee-proxy-1.0.0-amd64.fpk
 ```
-
-## 维护本仓库
-
-- **代码流向**：维护者只推 Gitee 主站（`git push origin main`），GitHub 镜像自动同步（配置方法见 AGENTS.md）
-- **用户流向**：添加源 / 下载 fpk 以 GitHub 直链为主（稳定），Gitee 直链为国内备用
-- 添加新应用、更新版本、下架应用、接入 ARM 安装包的完整操作步骤（SOP）、fnpack.json V2 字段速查表、推送前校验清单，见 [AGENTS.md](AGENTS.md)。该文件同时面向人和 AI 维护助手编写，可直接把仓库交给 AI 按指南操作。
