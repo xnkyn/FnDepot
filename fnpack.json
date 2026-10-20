@@ -4,7 +4,7 @@
     "name": "FnDepot",
     "author": "xnkyn",
     "homepage": "https://github.com/xnkyn/FnDepot",
-    "description": "P2Pee 系列应用第三方源（文件共享 / 内网穿透）"
+    "description": "P2Pee 系列应用第三方源（文件共享 / 内网穿透 / 远程桌面）"
   },
   "apps": {
     "p2pee": {
@@ -59,6 +59,39 @@
               "download_url": "./p2pee-proxy/p2pee-proxy-1.0.0-amd64.fpk",
               "sha256": "bbedfd8239bd5a170a3867b4c09452d909533e20036ba5e964a61772b693ba7e",
               "size": 8483203
+            }
+          }
+        }
+      }
+    },
+    "p2pee-remote": {
+      "display_name": "P2Pee远程桌面",
+      "desc": "P2Pee 远程桌面 - 在浏览器里直接打开内网的 RDP / VNC 远程桌面，桌面画面走点对点（P2P）传输，无需安装客户端、无需公网 IP 与端口映射，支持多目标配置与 Web 管理界面",
+      "platform": ["x86", "arm"],
+      "categories": ["系统工具"],
+      "icon_url": "./p2pee-remote/ICON.PNG",
+      "maintainer": "p2pee.com",
+      "maintainer_url": "https://p2pee.com",
+      "distributor": "p2pee.com",
+      "distributor_url": "https://p2pee.com",
+      "run_as": "package",
+      "install_type": "",
+      "is_docker": false,
+      "releases": {
+        "1.0.0": {
+          "changelog": "初始版本：配置 Key 与多个 RDP/VNC 目标，浏览器直接访问内网桌面；同步提供 x86 与 ARM 双架构安装包",
+          "updated_at": "2026-10-21T00:11:00+08:00",
+          "os_min_version": "0.9.0",
+          "packages": {
+            "x86": {
+              "download_url": "./p2pee-remote/p2pee-remote-1.0.0-amd64.fpk",
+              "sha256": "fa518a843db4130f3e6b9b540e5603a252c146aeb779026f0424bf1fd01c0f96",
+              "size": 5864708
+            },
+            "arm": {
+              "download_url": "./p2pee-remote/p2pee-remote-1.0.0-arm64.fpk",
+              "sha256": "018de7813143d99185ce0770e3f29108ee03e6b835ec1e6228b9a6852ee12d49",
+              "size": 5446573
             }
           }
         }

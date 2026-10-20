@@ -193,9 +193,9 @@ git remote -v
 3. 重算 sha256 和 size
 4. 同步更新 README 应用列表的版本号，校验 JSON，提交推送（建议提交信息 `feat: bump mytool to 1.1.0`）
 
-## 接入 ARM 架构安装包（后期规划）
+## 接入 ARM 架构安装包
 
-当前两个应用仅收录 x86（x86_64）包：应用级 `platform` 为 `["x86"]`，`packages` 只有 `"x86"` 键。p2pee 发布 ARM 版 fpk 后按以下流程接入：
+当前状态：`p2pee-remote` 已同时收录 x86 与 arm 双架构包（应用级 `platform` 为 `["x86", "arm"]`，版本节点 `packages` 下有 `x86` / `arm` 两个键）；`p2pee`、`p2pee-proxy` 仍只有 x86 包，等平台发布 ARM 版 fpk 后按以下流程接入：
 
 1. 获取 ARM 版 fpk，先解出 manifest 复核：`appname` 必须与现有应用目录一致；`arch=arm64` 对应 platform 枚举 `"arm"`
 2. 将 ARM 包放入对应应用目录，文件名带架构标识（如 `p2pee-1.0.1-arm64.fpk`），并计算 sha256 和 size
@@ -205,6 +205,8 @@ git remote -v
    - 如必须给已发布的 1.0.0 补 ARM 包：可在 `releases."1.0.0".packages` 里新增 `"arm"` 键（不影响已发布的 x86 条目，符合"版本号+架构不可变"），同时更新该节点 `updated_at`；更稳妥的做法仍是发新版本
 4. 校验 JSON、更新 README（应用列表架构列、ARM 支持说明、手动安装直链表加 ARM 行），提交推送
 5. 在飞牛 ARM 真机上添加源实测安装
+
+注意：manifest 里的 `arch` 是构建工具的写法（`x86_64` / `arm64`），文件名与 fnpack.json 用的枚举不同，务必按上面的映射换算 —— `x86_64` → 文件名 `amd64` / JSON 键 `x86`；`arm64` → 文件名 `arm64` / JSON 键 `arm`。
 
 相关规则：`packages` 架构键只能是 `all` / `x86` / `arm`；客户端按「当前架构精确匹配 → 回退 `packages.all`」选择安装包。若某应用只有一个通用包（manifest 无架构绑定），用 `"all"` 键 + `platform: ["all"]`。
 

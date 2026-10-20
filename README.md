@@ -14,6 +14,7 @@
 | --- | --- | --- | --- | --- |
 | [P2Pee文件共享](p2pee/) | `p2pee` | 1.0.0 | x86 | 通过 P2P 网络实现高效文件共享，浏览器直接下载 NAS 共享文件 |
 | [P2Pee内网穿透](p2pee-proxy/) | `p2pee-proxy` | 1.0.0 | x86 | 将本地 HTTP(S) 服务安全暴露到公网，无需公网 IP 和端口映射 |
+| [P2Pee远程桌面](p2pee-remote/) | `p2pee-remote` | 1.0.0 | x86 / ARM | 浏览器直接打开内网的 RDP / VNC 桌面，P2P 传输，无需客户端与公网 IP |
 
 ## 在 FnDepot 应用中添加本源
 
@@ -35,14 +36,16 @@
 
 本仓库就是 P2Pee 系列飞牛应用的 fpk 安装包分发处，点击下面的直链即可直接下载安装包：
 
-| 应用 | 版本 | 主源下载（GitHub） | 备用下载（Gitee，国内快） |
-| --- | --- | --- | --- |
-| P2Pee文件共享 | 1.0.0 | [p2pee-1.0.0-amd64.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee/p2pee-1.0.0-amd64.fpk) | [p2pee-1.0.0-amd64.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee/p2pee-1.0.0-amd64.fpk) |
-| P2Pee内网穿透 | 1.0.0 | [p2pee-proxy-1.0.0-amd64.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee-proxy/p2pee-proxy-1.0.0-amd64.fpk) | [p2pee-proxy-1.0.0-amd64.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee-proxy/p2pee-proxy-1.0.0-amd64.fpk) |
+| 应用 | 版本 | 架构 | 主源下载（GitHub） | 备用下载（Gitee，国内快） |
+| --- | --- | --- | --- | --- |
+| P2Pee文件共享 | 1.0.0 | x86_64 | [p2pee-1.0.0-amd64.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee/p2pee-1.0.0-amd64.fpk) | [p2pee-1.0.0-amd64.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee/p2pee-1.0.0-amd64.fpk) |
+| P2Pee内网穿透 | 1.0.0 | x86_64 | [p2pee-proxy-1.0.0-amd64.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee-proxy/p2pee-proxy-1.0.0-amd64.fpk) | [p2pee-proxy-1.0.0-amd64.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee-proxy/p2pee-proxy-1.0.0-amd64.fpk) |
+| P2Pee远程桌面 | 1.0.0 | x86_64 | [p2pee-remote-1.0.0-amd64.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee-remote/p2pee-remote-1.0.0-amd64.fpk) | [p2pee-remote-1.0.0-amd64.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee-remote/p2pee-remote-1.0.0-amd64.fpk) |
+| P2Pee远程桌面 | 1.0.0 | arm64 | [p2pee-remote-1.0.0-arm64.fpk](https://raw.githubusercontent.com/xnkyn/FnDepot/main/p2pee-remote/p2pee-remote-1.0.0-arm64.fpk) | [p2pee-remote-1.0.0-arm64.fpk](https://gitee.com/xnkyn/FnDepot/raw/main/p2pee-remote/p2pee-remote-1.0.0-arm64.fpk) |
 
 ### 安装步骤
 
-1. 点击上表直链，把 `.fpk` 安装包下载到电脑（当前仅提供 **x86_64** 架构包，适用于飞牛 x86 机型）
+1. 点击上表直链，按你的飞牛机型架构下载对应 `.fpk`（x86 机型选 `amd64`，ARM 机型选 `arm64`；机型架构可在 fnOS「设置 → 关于」查看）
 2. 打开 fnOS 桌面的「应用中心」，进入「手动安装」（入口一般在应用中心的设置 / 更多菜单里）
 3. 选择刚下载的 `.fpk` 文件上传，按安装向导确认完成
 4. 「P2Pee文件共享」首次安装会提示安装依赖 `nodejs_v22`，按提示确认即可
@@ -50,17 +53,21 @@
 
 ## ARM 架构支持说明
 
-当前仓库收录的两个应用均只提供 **x86（x86_64）** 架构安装包，飞牛 ARM 机型暂时无法安装（ARM 版发布后本仓库会第一时间收录，并同步更新此说明和下载直链）。想第一时间获知 ARM 版动态，请关注 [p2pee.com](https://p2pee.com) 
+- **P2Pee远程桌面**（`p2pee-remote`）：已同时收录 **x86（x86_64）** 与 **ARM（arm64）** 双架构包，飞牛 ARM 机型可直接加源或手动安装
+- **P2Pee文件共享**（`p2pee`）、**P2Pee内网穿透**（`p2pee-proxy`）：目前仅提供 **x86（x86_64）** 包，ARM 机型暂时无法安装；官方发布 ARM 版后本仓库会第一时间收录，并同步更新此说明和下载直链
+
+想第一时间获知 ARM 版动态，请关注 [p2pee.com](https://p2pee.com)
 
 
 ## 关于 p2pee
 
-[p2pee.com](https://p2pee.com) 提供两大核心服务，与本仓库收录的两个应用一一对应：
+[p2pee.com](https://p2pee.com) 提供三大核心服务，与本仓库收录的三个应用一一对应：
 
 | 官网服务 | 对应应用 | 一句话介绍 |
 | --- | --- | --- |
 | 文件共享 | P2Pee文件共享（`p2pee`） | 像云盘一样简单，但数据始终在你自己的 NAS 手里 |
 | 内网穿透 | P2Pee内网穿透（`p2pee-proxy`） | 把本地 HTTP(S) 服务安全暴露到公网，无需公网 IP、无需端口映射 |
+| 远程桌面 | P2Pee远程桌面（`p2pee-remote`） | 浏览器直接连内网的 RDP / VNC 桌面，画面走 P2P 传输，无需装客户端 |
 
 - 基于 **WebRTC 点对点直连**，数据不经过中转服务器，局域网内满速传输，支持大文件
 - **网页版无需安装任何客户端**，打开 [p2pee.com](https://p2pee.com) 即可使用
@@ -77,7 +84,11 @@ FnDepot/
 ├── p2pee/                           # 应用目录名 = FPK manifest 中的 appname
 │   ├── ICON.PNG                     # 图标（全大写文件名，256×256，<500KB）
 │   └── p2pee-1.0.0-amd64.fpk
-└── p2pee-proxy/
+├── p2pee-proxy/
+│   ├── ICON.PNG
+│   └── p2pee-proxy-1.0.0-amd64.fpk
+└── p2pee-remote/
     ├── ICON.PNG
-    └── p2pee-proxy-1.0.0-amd64.fpk
+    ├── p2pee-remote-1.0.0-amd64.fpk    # x86_64 包
+    └── p2pee-remote-1.0.0-arm64.fpk    # arm64 包
 ```
